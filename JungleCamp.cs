@@ -1,22 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ExternalRPM
 {
-    internal class JungleCamp
+    public class JungleCamp
     {
-        public string Id { get; set; } //name in memory
+        public string MemoryId { get; set; } //name in memory
         public string Name { get; set; } //readable name
 
         public TimeSpan RespawnTime { get; set; } //Respawn before dead
 
-        public TimeSpan ActiveRespawnTime { get; set; } //time untill respawn
-        public bool IsDead { get; set; }
+        public TimeSpan RemainingRespawnTime { get; set; } //time untill respawn
+        public bool IsAlive { get; set; }
+
+        public Color Color { get; set; }
         public float PositionX { get; set; }
         public float PositionY { get; set; }
+        public int AbsentIterations { get; set; } // number of iterations the camp has been absent
+
+        private Thread _countdownThread;
+
+        public JungleCamp()
+        {
+            _countdownThread = new Thread(_CountdownThreadLogic);
+        }
+
+        public void HandleEntityListChange(List<string> entityList)
+        {
+            if (entityList.Contains(MemoryId))
+            {
+                // The Jungle camp was previously marked as cleared
+                if (!IsAlive)
+                {
+                    IsAlive = true;
+                    AbsentIterations = 0;
+
+                }
+            }
+            else
+            {
+                // The Jungle camp was previously marked as alive
+                if (IsAlive)
+                {
+                    AbsentIterations++;
+                    //Check if the camp has been absent for a certain number of iteration to consider it cleared
+                    if (AbsentIterations > 1)
+                    {
+                        IsAlive = false;
+                        RemainingRespawnTime = RespawnTime;
+                        _countdownThread.Start();
+                    }
+                }
+            }
+        }
+        private void _CountdownThreadLogic()
+        {
+            while (RemainingRespawnTime > TimeSpan.Zero)
+            {
+                Thread.Sleep(1000);
+
+                if (IsAlive)
+                {
+                    RemainingRespawnTime = TimeSpan.Zero;
+                    break;
+                }
+
+                RemainingRespawnTime -= TimeSpan.FromSeconds(1);
+            }
+        }
+        
         public static Dictionary<string, JungleCamp> InitializeJungleCamps()
         {
             Dictionary<string, JungleCamp> jungleCamps = new Dictionary<string, JungleCamp>(14); // Initialize with expected capacity
@@ -27,11 +83,13 @@ namespace ExternalRPM
             {
                 jungleCamps.Add(id, new JungleCamp
                 {
-                    Id = id,
+                    MemoryId = id,
                     Name = name,
                     RespawnTime = respawnTime,
                     PositionX = positionX,
-                    PositionY = positionY
+                    PositionY = positionY,
+                    Color = Color.White,
+                    IsAlive = false
                 });
             }
 
