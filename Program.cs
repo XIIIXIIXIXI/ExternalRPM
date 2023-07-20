@@ -1,4 +1,6 @@
-﻿namespace ExternalRPM
+﻿using ExternalRPM.Data;
+
+namespace ExternalRPM
 {
     public class Program
     {
@@ -69,7 +71,6 @@
             }
             kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
             Thread.Sleep(5000);
-
         }
 
         public static void ConsoleTestFinal()
