@@ -52,6 +52,7 @@ namespace ExternalRPM
                     if (AbsentIterations > 1)
                     {
                         IsAlive = false;
+                        Color = Color.White;
                         RemainingRespawnTime = RespawnTime;
                         _countdownThread.Start();
                     }

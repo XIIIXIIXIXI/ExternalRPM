@@ -50,7 +50,7 @@ namespace ExternalRPM
                 }
                 else
                 {
-                    output = $"{camp.Name}: {camp.RemainingRespawnTime.Minutes}:{camp.RemainingRespawnTime.Seconds:D2}";
+                    output = $"{camp.Name}: {camp.RemainingRespawnTime.Minutes}:{camp.RemainingRespawnTime.Seconds:D2} ";
                 }
 
                 lock (_outputLock)

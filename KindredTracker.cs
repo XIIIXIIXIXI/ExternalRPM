@@ -24,6 +24,7 @@ namespace ExternalRPM
             if (!isMarkActive)
             {
                 FindNextPotentialCamps(isBlueTeam, markCounter);
+                ResetCampColors();
                 foreach (var index in nextPotentialCampIndices)
                 {
                     jungleCamps[index].Color = Color.Green;
