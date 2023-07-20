@@ -37,6 +37,7 @@ namespace ExternalRPM
                 if (!IsAlive)
                 {
                     IsAlive = true;
+                    RemainingRespawnTime = TimeSpan.Zero;
                     AbsentIterations = 0;
 
                 }
@@ -89,7 +90,8 @@ namespace ExternalRPM
                     PositionX = positionX,
                     PositionY = positionY,
                     Color = Color.White,
-                    IsAlive = false
+                    IsAlive = false,
+                    RemainingRespawnTime = respawnTime
                 });
             }
 

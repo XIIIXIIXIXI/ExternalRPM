@@ -21,7 +21,7 @@ namespace ExternalRPM
 
         public void UpdateMarkStatus(bool isMarkActive, bool isBlueTeam, int markCounter)
         {
-            if (isMarkActive)
+            if (!isMarkActive)
             {
                 FindNextPotentialCamps(isBlueTeam, markCounter);
                 foreach (var index in nextPotentialCampIndices)
@@ -35,14 +35,14 @@ namespace ExternalRPM
             }
         }
 
-        public void ResetCampColors()
+        private void ResetCampColors()
         {
             foreach (var camp in jungleCamps)
             {
                 camp.Color = Color.White;
             }
         }
-        public void FindNextPotentialCamps(bool isBlueTeam, int markCounter)
+        private void FindNextPotentialCamps(bool isBlueTeam, int markCounter)
         {
             nextPotentialCampIndices.Clear();
             List<string> availableMonsters = new List<string>();
@@ -140,7 +140,7 @@ namespace ExternalRPM
             {
                 if (markCounter == 0)
                 {
-                    if (jungleCamps[12].IsAlive || jungleCamps[12].RemainingRespawnTime < MarkRespawnTime)  // left Sru_Crab16.1.1
+                    if (jungleCamps[12].IsAlive ||  jungleCamps[12].RemainingRespawnTime < MarkRespawnTime)  // left Sru_Crab16.1.1
                     {
                         nextPotentialCampIndices.Add(12);
                     }
@@ -227,7 +227,7 @@ namespace ExternalRPM
             }
         }
 
-        public int GetLowestRespawnTimeIndex(List<JungleCamp> camps)
+        private int GetLowestRespawnTimeIndex(List<JungleCamp> camps)
         {
             int lowestIndex = jungleCamps.IndexOf(camps[0]);
             TimeSpan lowestRespawnTime = camps[0].RemainingRespawnTime;
