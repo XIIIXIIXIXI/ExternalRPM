@@ -1,4 +1,5 @@
-﻿using ExternalRPM.Data;
+﻿using ExternalRPM.Buff;
+using ExternalRPM.Data;
 using ExternalRPM.Model;
 using ExternalRPM.Presentation;
 
@@ -8,7 +9,35 @@ namespace ExternalRPM
     {
         public static void Main()
         {
-            ConsoleTestFinal();
+            TestBuffManager();
+        }
+
+        public static void TestBuffManager()
+        {
+            while (true)
+            {
+
+                BuffManager buffManager = new BuffManager();
+                List<Buff.Buff> buffList = buffManager.Buffs;
+                for (int i = 0; i < buffList.Count; i++)
+                {
+                    if (buffList[i].Name == "kindredhitlistmonste")
+                    {
+                        Console.SetCursorPosition(0, 0);
+                        Console.WriteLine(
+                            $"{buffList[i].Name}, Loc: {i}, count:{buffList[i].Count}, count2:{buffList[i].Count2}, start:{buffList[i].StartTime}, end:{buffList[i].EndTime}");
+
+                    }
+                    else if (buffList[i].Name == "kindredlegendspassive")
+                    {
+                        Console.SetCursorPosition(0, 1);
+                        Console.WriteLine(
+                            $"{buffList[i].Name}, Loc: {i}, count:{buffList[i].Count}, count2:{buffList[i].Count2}, start:{buffList[i].StartTime}, end:{buffList[i].EndTime}");
+                    }
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
         public static void ConsoleTestSingular()
@@ -87,7 +116,6 @@ namespace ExternalRPM
             //commandLineUI.StartCountdownThreads();
             commandLineUI.StartCountdownThreads();
 
-            // Simulate updates to KindredTracker (You need to replace these with actual updates from your game)
             bool isMarkActive = false; // Replace with actual status
             bool isBlueTeam = true; // Replace with actual team
             int markCounter = 0; // Replace with actual mark counter

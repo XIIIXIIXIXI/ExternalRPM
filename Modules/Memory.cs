@@ -16,33 +16,16 @@ namespace ExternalRPM.Modules
             return leagueProcess?.Handle ?? IntPtr.Zero;
         }
 
-        public static T Read<T>(long address) where T : struct
+        public static T Read<T>(long Address)
         {
-            var size = Marshal.SizeOf<T>();
-            var buffer = new byte[size];
-
-            IntPtr processHandle = GetLeagueProcessHandle();
-            if (processHandle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException("League of Legends process not found.");
-            }
-
-            bool result = NativeImport.ReadProcessMemory(processHandle, (IntPtr)address, buffer, size, out var bytesRead);
-            if (!result)
-            {
-                throw new InvalidOperationException("Failed to read memory.");
-            }
-
-            var ptr = Marshal.AllocHGlobal(size);
-            try
-            {
-                Marshal.Copy(buffer, 0, ptr, size);
-                return Marshal.PtrToStructure<T>(ptr);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(ptr);
-            }
+            var Size = Marshal.SizeOf<T>();
+            var Buffer = new byte[Size];
+            bool Result = NativeImport.ReadProcessMemory(Process.GetProcessesByName("League of Legends").FirstOrDefault().Handle, (IntPtr)Address, Buffer, Size, out var lpRead);
+            var Ptr = Marshal.AllocHGlobal(Size);
+            Marshal.Copy(Buffer, 0, Ptr, Size);
+            var Struct = Marshal.PtrToStructure<T>(Ptr);
+            Marshal.FreeHGlobal(Ptr);
+            return Struct;
         }
 
         public static string ReadString(long address, int size)

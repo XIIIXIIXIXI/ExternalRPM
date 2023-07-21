@@ -7,12 +7,12 @@ using ExternalRPM.Data;
 
 namespace ExternalRPM.Modules
 {
-    public class JungleCampMemoryReader
+    public class EntityReader
     {
         //static fields that never changes:
         private readonly long entityListPtr;
 
-        public JungleCampMemoryReader()
+        public EntityReader()
         {
             long entityBaseAddress = Offsets.Instances.GetEntityBase;
             entityListPtr = Memory.Read<long>(entityBaseAddress + Offsets.Object.EntityList);
