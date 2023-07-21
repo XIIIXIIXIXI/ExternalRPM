@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExternalRPM
+namespace ExternalRPM.Model
 {
     public class KindredTracker
     {
@@ -141,7 +141,7 @@ namespace ExternalRPM
             {
                 if (markCounter == 0)
                 {
-                    if (jungleCamps[12].IsAlive ||  jungleCamps[12].RemainingRespawnTime < MarkRespawnTime)  // left Sru_Crab16.1.1
+                    if (jungleCamps[12].IsAlive || jungleCamps[12].RemainingRespawnTime < MarkRespawnTime)  // left Sru_Crab16.1.1
                     {
                         nextPotentialCampIndices.Add(12);
                     }

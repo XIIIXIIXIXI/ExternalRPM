@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExternalRPM
+namespace ExternalRPM.Model
 {
     public class JungleCamp
     {
@@ -74,7 +74,7 @@ namespace ExternalRPM
                 RemainingRespawnTime -= TimeSpan.FromSeconds(1);
             }
         }
-        
+
         public static Dictionary<string, JungleCamp> InitializeJungleCamps()
         {
             Dictionary<string, JungleCamp> jungleCamps = new Dictionary<string, JungleCamp>(14); // Initialize with expected capacity
@@ -122,5 +122,5 @@ namespace ExternalRPM
         }
     }
 
-    
+
 }

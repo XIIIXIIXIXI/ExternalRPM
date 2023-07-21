@@ -1,4 +1,6 @@
 ﻿using ExternalRPM.Data;
+using ExternalRPM.Model;
+using ExternalRPM.Presentation;
 
 namespace ExternalRPM
 {

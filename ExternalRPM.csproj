@@ -12,8 +12,4 @@
     <PackageReference Include="NUnit.ConsoleRunner" Version="3.16.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Draw\" />
-  </ItemGroup>
-
 </Project>

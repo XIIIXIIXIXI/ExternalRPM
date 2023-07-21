@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExternalRPM.Model;
 
-namespace ExternalRPM
+namespace ExternalRPM.Presentation
 {
     public class CommandLineUI
     {
@@ -16,7 +17,7 @@ namespace ExternalRPM
 
         public CommandLineUI(JungleCamp[] jungleCamps)
         {
-            this._jungleCamps = jungleCamps;
+            _jungleCamps = jungleCamps;
             _countdownThreads = new Thread[jungleCamps.Length];
         }
 
@@ -37,7 +38,7 @@ namespace ExternalRPM
 
         public void OutputCountdown(object campIndexObj)
         {
-            int campIndex = (int) campIndexObj;
+            int campIndex = (int)campIndexObj;
             JungleCamp camp = _jungleCamps[campIndex];
 
             while (true)
