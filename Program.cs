@@ -38,6 +38,8 @@ namespace ExternalRPM
                 {
                     jungleCamp.HandleEntityListChange(camps);
                 }
+                kindredTracker.UpdateMarkStatus();
+                Thread.Sleep(1000);
             }
         }
 

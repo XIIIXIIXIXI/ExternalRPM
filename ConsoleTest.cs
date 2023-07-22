@@ -60,7 +60,7 @@ namespace ExternalRPM
             bool isBlueTeam = true; // Replace with actual team
             int markCounter = 0; // Replace with actual mark counter
 
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             HashSet<string> entityList = new HashSet<string>()
             {
                 "Sru_Crab16.1.1",
@@ -71,7 +71,7 @@ namespace ExternalRPM
             {
                 camp.HandleEntityListChange(entityList);
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
             HashSet<string> entityList2 = new HashSet<string>
             {
@@ -84,7 +84,7 @@ namespace ExternalRPM
             {
                 camp.HandleEntityListChange(entityList2);
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
             entityList2.Clear();
             for (int i = 0; i < 2; i++)
@@ -94,7 +94,7 @@ namespace ExternalRPM
                     camp.HandleEntityListChange(entityList2);
                 }
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
             entityList2.Add("SRU_Blue7.1.1");
             markCounter = 5;
@@ -102,7 +102,7 @@ namespace ExternalRPM
             {
                 camp.HandleEntityListChange(entityList2);
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
         }
 
@@ -122,7 +122,7 @@ namespace ExternalRPM
             bool isBlueTeam = true; // Replace with actual team
             int markCounter = 0; // Replace with actual mark counter
 
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             HashSet<string> entityList = new HashSet<string>
             {
             };
@@ -130,7 +130,7 @@ namespace ExternalRPM
             {
                 camp.HandleEntityListChange(entityList);
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
             HashSet<string> entityList2 = new HashSet<string>
             {
@@ -156,10 +156,10 @@ namespace ExternalRPM
                     camp.HandleEntityListChange(entityList2);
                 }
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
             markCounter = 5;
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
             HashSet<string> entityList3 = new HashSet<string>
             {
@@ -181,7 +181,7 @@ namespace ExternalRPM
                     camp.HandleEntityListChange(entityList3);
                 }
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, markCounter);
+            kindredTracker.UpdateMarkStatus();
             Thread.Sleep(5000);
         }
     }

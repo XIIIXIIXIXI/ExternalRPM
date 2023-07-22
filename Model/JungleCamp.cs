@@ -23,10 +23,11 @@ namespace ExternalRPM.Model
         public int AbsentIterations { get; set; } // number of iterations the camp has been absent
 
         private Thread _countdownThread;
+        private volatile bool _stopCountdown;
 
         public JungleCamp()
         {
-            _countdownThread = new Thread(_CountdownThreadLogic);
+            //_countdownThread = new Thread(_CountdownThreadLogic);
         }
 
         public void HandleEntityListChange(HashSet<string> entityList)
@@ -39,6 +40,7 @@ namespace ExternalRPM.Model
                     IsAlive = true;
                     RemainingRespawnTime = TimeSpan.Zero;
                     AbsentIterations = 0;
+                    _stopCountdown = true;
 
                 }
             }
@@ -54,14 +56,16 @@ namespace ExternalRPM.Model
                         IsAlive = false;
                         Color = Color.White;
                         RemainingRespawnTime = RespawnTime;
-                        _countdownThread.Start();
+                        _stopCountdown = false;
+                        var countdownThread = new Thread(_CountdownThreadLogic);
+                        countdownThread.Start();
                     }
                 }
             }
         }
         private void _CountdownThreadLogic()
         {
-            while (RemainingRespawnTime > TimeSpan.Zero)
+            while ((RemainingRespawnTime > TimeSpan.Zero) && !_stopCountdown)
             {
                 Thread.Sleep(1000);
 

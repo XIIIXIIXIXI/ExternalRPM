@@ -25,11 +25,11 @@ namespace ExternalRPM.Model.Kindred
             markTracker.StartMarkTracking(this);
         }
 
-        public void UpdateMarkStatus(bool isMarkActive, int markCounter)
+        public void UpdateMarkStatus()
         {
-            if (!isMarkActive)
+            if (!markTracker.IsMarkActive)
             {
-                FindNextPotentialCamps(localPlayer.IsBlueTeam, markCounter);
+                FindNextPotentialCamps(localPlayer.IsBlueTeam, markTracker.MarkCount);
                 ResetCampColors();
                 foreach (var index in nextPotentialCampIndices)
                 {

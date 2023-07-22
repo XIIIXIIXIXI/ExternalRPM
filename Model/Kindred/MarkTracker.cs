@@ -9,8 +9,8 @@ namespace ExternalRPM.Model.Kindred
 {
     public class MarkTracker
     {
-        private bool IsMarkActive { get; set; } = false;
-        private int markCount { get; set; } = 0;
+        public bool IsMarkActive { get; set; } = false;
+        public int MarkCount { get; set; } = 0;
         BuffManager buffManager = new BuffManager();
         private KindredTracker kindredTracker;
         private readonly object lockObject = new object();
@@ -32,8 +32,7 @@ namespace ExternalRPM.Model.Kindred
                 if (isMarkActive != previousMarkStatus)
                 {
                     previousMarkStatus = isMarkActive;
-                    markCount = GetMarkCount();
-                    kindredTracker.UpdateMarkStatus(isMarkActive, markCount);
+                    MarkCount = GetMarkCount();
                 }
 
                 // You can adjust the sleep duration based on how frequently you want to check for mark changes
