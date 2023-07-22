@@ -4,26 +4,32 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExternalRPM.Modules;
 
-namespace ExternalRPM.Model
+namespace ExternalRPM.Model.Kindred
 {
     public class KindredTracker
     {
         private readonly List<JungleCamp> jungleCamps;
+        private readonly LocalPlayer localPlayer;
         private List<int> nextPotentialCampIndices;
         private readonly TimeSpan MarkRespawnTime = TimeSpan.FromMinutes(0.45);
+        private MarkTracker markTracker;
 
-        public KindredTracker(List<JungleCamp> jungleCamps)
+        public KindredTracker(List<JungleCamp> jungleCamps, LocalPlayer localPlayer)
         {
+            this.localPlayer = localPlayer;
             this.jungleCamps = jungleCamps;
             nextPotentialCampIndices = new List<int>();
+            markTracker = new MarkTracker();
+            markTracker.StartMarkTracking(this);
         }
 
-        public void UpdateMarkStatus(bool isMarkActive, bool isBlueTeam, int markCounter)
+        public void UpdateMarkStatus(bool isMarkActive, int markCounter)
         {
             if (!isMarkActive)
             {
-                FindNextPotentialCamps(isBlueTeam, markCounter);
+                FindNextPotentialCamps(localPlayer.IsBlueTeam, markCounter);
                 ResetCampColors();
                 foreach (var index in nextPotentialCampIndices)
                 {

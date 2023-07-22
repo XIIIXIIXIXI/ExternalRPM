@@ -29,7 +29,7 @@ namespace ExternalRPM.Model
             _countdownThread = new Thread(_CountdownThreadLogic);
         }
 
-        public void HandleEntityListChange(List<string> entityList)
+        public void HandleEntityListChange(HashSet<string> entityList)
         {
             if (entityList.Contains(MemoryId))
             {

@@ -1,6 +1,8 @@
 ﻿using ExternalRPM.Buff;
 using ExternalRPM.Data;
 using ExternalRPM.Model;
+using ExternalRPM.Model.Kindred;
+using ExternalRPM.Modules;
 using ExternalRPM.Presentation;
 
 namespace ExternalRPM
@@ -9,178 +11,36 @@ namespace ExternalRPM
     {
         public static void Main()
         {
-            TestBuffManager();
+            //ConsoleTest.TestBuffManager();
+            MainLoop();
         }
 
-        public static void TestBuffManager()
+        public static void MainLoop()
         {
-            while (true)
-            {
-
-                BuffManager buffManager = new BuffManager();
-                List<Buff.Buff> buffList = buffManager.Buffs;
-                for (int i = 0; i < buffList.Count; i++)
-                {
-                    if (buffList[i].Name == "kindredhitlistmonste")
-                    {
-                        Console.SetCursorPosition(0, 0);
-                        Console.WriteLine(
-                            $"{buffList[i].Name}, Loc: {i}, count:{buffList[i].Count}, count2:{buffList[i].Count2}, start:{buffList[i].StartTime}, end:{buffList[i].EndTime}");
-
-                    }
-                    else if (buffList[i].Name == "kindredlegendspassive")
-                    {
-                        Console.SetCursorPosition(0, 1);
-                        Console.WriteLine(
-                            $"{buffList[i].Name}, Loc: {i}, count:{buffList[i].Count}, count2:{buffList[i].Count2}, start:{buffList[i].StartTime}, end:{buffList[i].EndTime}");
-                    }
-                }
-
-                Thread.Sleep(1000);
-            }
-        }
-
-        public static void ConsoleTestSingular()
-        {
-            // Initialize jungle camps
+            //ConsoleTest.TestBuffManager();
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
-
+            LocalPlayer localPlayer = new LocalPlayer();
             // Create KindredTracker and CommandLineUI instances
-            KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values));
-            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray());
-
-            // Start the countdown threads
-            //commandLineUI.StartCountdownThreads();
-            commandLineUI.StartSingleCountdownThread();
-
-            // Simulate updates to KindredTracker (You need to replace these with actual updates from your game)
-            bool isMarkActive = false; // Replace with actual status
-            bool isBlueTeam = true; // Replace with actual team
-            int markCounter = 0; // Replace with actual mark counter
-
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            List<string> entityList = new List<string>
-            {
-                "Sru_Crab16.1.1",
-                "Sru_Crab15.1.1",
-                "SRU_Murkwolf2.1.1"
-            };
-            foreach (var camp in jungleCamps.Values)
-            { 
-                camp.HandleEntityListChange(entityList);
-            }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-            List<string> entityList2 = new List<string>
-            {
-                "SRU_Blue7.1.1",
-                "SRU_Red10.1.1",
-                "SRU_Krug11.1.1",
-                "SRU_Murkwolf8.1.1"
-            };
-            foreach (var camp in jungleCamps.Values)
-            {
-                camp.HandleEntityListChange(entityList2);
-            }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-            entityList2.Clear();
-            for (int i = 0; i < 2; i++)
-            {
-                foreach (var camp in jungleCamps.Values)
-                {
-                    camp.HandleEntityListChange(entityList2);
-                }
-            }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-            entityList2.Add("SRU_Blue7.1.1");
-            markCounter = 5;
-            foreach (var camp in jungleCamps.Values)
-            {
-                camp.HandleEntityListChange(entityList2);
-            }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-        }
-
-        public static void ConsoleTestFinal()
-        {
-            Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
-
-            // Create KindredTracker and CommandLineUI instances
-            KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values));
+            KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
             CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray());
 
             // Start the countdown threads
             //commandLineUI.StartCountdownThreads();
             commandLineUI.StartCountdownThreads();
+            HashSet<string> camps = new HashSet<string>();
+            EntityReader memoryReader = new EntityReader();
 
-            bool isMarkActive = false; // Replace with actual status
-            bool isBlueTeam = true; // Replace with actual team
-            int markCounter = 0; // Replace with actual mark counter
 
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            List<string> entityList = new List<string>
+            while (true)
             {
-            };
-            foreach (var camp in jungleCamps.Values)
-            {
-                camp.HandleEntityListChange(entityList);
-            }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-            List<string> entityList2 = new List<string>
-            {
-                "Sru_Crab16.1.1",
-                "Sru_Crab15.1.1",
-                "SRU_Murkwolf2.1.1",
-                "SRU_Blue1.1.1",
-                "SRU_Blue7.1.1",
-                "SRU_Red4.1.1",
-                "SRU_Red10.1.1",
-                "SRU_Murkwolf8.1.1",
-                "SRU_Gromp13.1.1",
-                "SRU_Gromp14.1.1",
-                "SRU_Razorbeak3.1.1",
-                "SRU_Razorbeak9.1.1",
-                "SRU_Krug5.1.1",
-                "SRU_Krug11.1.1"
-            };
-            for (int i = 0; i < 2; i++)
-            {
-                foreach (var camp in jungleCamps.Values)
+                camps = memoryReader.GetJungleCampsEntityList();
+                foreach (JungleCamp jungleCamp in jungleCamps.Values)
                 {
-                    camp.HandleEntityListChange(entityList2);
+                    jungleCamp.HandleEntityListChange(camps);
                 }
             }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-            markCounter = 5;
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
-            List<string> entityList3 = new List<string>
-            {
-                "Sru_Crab16.1.1",
-                "Sru_Crab15.1.1",
-                "SRU_Murkwolf2.1.1",
-                "SRU_Blue1.1.1",
-                "SRU_Blue7.1.1",
-                "SRU_Red4.1.1",
-                "SRU_Razorbeak3.1.1",
-                "SRU_Razorbeak9.1.1",
-                "SRU_Krug5.1.1",
-                "SRU_Krug11.1.1"
-            };
-            for (int i = 0; i < 2; i++)
-            {
-                foreach (var camp in jungleCamps.Values)
-                {
-                    camp.HandleEntityListChange(entityList3);
-                }
-            }
-            kindredTracker.UpdateMarkStatus(isMarkActive, isBlueTeam, markCounter);
-            Thread.Sleep(5000);
         }
+
+        
     }
 }
