@@ -119,8 +119,8 @@ namespace ExternalRPM.Model
             AddJungleCamp("SRU_Krug5.1.1", "KrugsB", TimeSpan.FromMinutes(2.25), 8396, 2619);
             AddJungleCamp("SRU_Krug11.1.1", "KrugsR", TimeSpan.FromMinutes(2.25), 6206, 12098);
 
-            AddJungleCamp("Sru_Crab16.1.1", "ScuttleU", TimeSpan.FromMinutes(2.25), 4052, 9448); // Up
-            AddJungleCamp("Sru_Crab15.1.1", "ScuttleD", TimeSpan.FromMinutes(2.25), 10358, 5405); // Down
+            AddJungleCamp("Sru_Crab16.1.1", "ScuttleU", TimeSpan.FromMinutes(2.30), 4052, 9448); // Up
+            AddJungleCamp("Sru_Crab15.1.1", "ScuttleD", TimeSpan.FromMinutes(2.30), 10358, 5405); // Down
 
             return jungleCamps;
         }

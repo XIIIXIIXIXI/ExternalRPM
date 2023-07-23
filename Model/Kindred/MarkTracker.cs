@@ -11,13 +11,15 @@ namespace ExternalRPM.Model.Kindred
     {
         public bool IsMarkActive { get; set; } = false;
         public int MarkCount { get; set; } = 0;
+        public TimeSpan MarkRespawnTime = TimeSpan.FromSeconds(45);
+        public bool MarkTimerRun = false;
         BuffManager buffManager = new BuffManager();
-        private KindredTracker kindredTracker;
+        //private KindredTracker kindredTracker;
         private readonly object lockObject = new object();
 
         public void StartMarkTracking(KindredTracker kindredTracker)
         {
-            this.kindredTracker = kindredTracker;
+            //this.kindredTracker = kindredTracker;
             Thread markTrackingThread = new Thread(TrackMark);
             markTrackingThread.Start();
         }
@@ -32,12 +34,34 @@ namespace ExternalRPM.Model.Kindred
                 if (isMarkActive != previousMarkStatus)
                 {
                     previousMarkStatus = isMarkActive;
+                    if (isMarkActive == false)
+                    {
+                        MarkTimerRun = true;
+                        StartMarkTimer();
+                    }
+                    else
+                    {
+                        MarkTimerRun = false;
+                    }
                     MarkCount = GetMarkCount();
                 }
 
                 // You can adjust the sleep duration based on how frequently you want to check for mark changes
                 Thread.Sleep(1000);
             }
+        }
+
+        private void StartMarkTimer()
+        {
+            Task.Run(() =>
+            {
+                while (MarkTimerRun)
+                {
+                    MarkRespawnTime -= TimeSpan.FromSeconds(1);
+                    Thread.Sleep(1000);
+                }
+            });
+            MarkRespawnTime = TimeSpan.FromSeconds(45);
         }
         private Buff.Buff ExtractMarkBuffFromBuffs(List<Buff.Buff> buffs)
         {

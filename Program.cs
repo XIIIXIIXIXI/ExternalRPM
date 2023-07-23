@@ -17,20 +17,28 @@ namespace ExternalRPM
 
         public static void MainLoop()
         {
-            //ConsoleTest.TestBuffManager();
+
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
             LocalPlayer localPlayer = new LocalPlayer();
-            // Create KindredTracker and CommandLineUI instances
-            KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
-            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray());
 
-            // Start the countdown threads
-            //commandLineUI.StartCountdownThreads();
+            KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
+            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray(), kindredTracker);
+
+
             commandLineUI.StartCountdownThreads();
             HashSet<string> camps = new HashSet<string>();
             EntityReader memoryReader = new EntityReader();
 
 
+            while (Offsets.Instances.GetGameTime < 210)
+            {
+                camps = memoryReader.GetJungleCampsEntityList();
+                foreach (JungleCamp jungleCamp in jungleCamps.Values)
+                {
+                    jungleCamp.HandleEntityListChange(camps);
+                }
+                Thread.Sleep(1000);
+            }
             while (true)
             {
                 camps = memoryReader.GetJungleCampsEntityList();
@@ -41,6 +49,8 @@ namespace ExternalRPM
                 kindredTracker.UpdateMarkStatus();
                 Thread.Sleep(1000);
             }
+
+
         }
 
         

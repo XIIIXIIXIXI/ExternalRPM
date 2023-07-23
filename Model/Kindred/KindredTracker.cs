@@ -14,7 +14,7 @@ namespace ExternalRPM.Model.Kindred
         private readonly LocalPlayer localPlayer;
         private List<int> nextPotentialCampIndices;
         private readonly TimeSpan MarkRespawnTime = TimeSpan.FromMinutes(0.45);
-        private MarkTracker markTracker;
+        public MarkTracker markTracker;
 
         public KindredTracker(List<JungleCamp> jungleCamps, LocalPlayer localPlayer)
         {

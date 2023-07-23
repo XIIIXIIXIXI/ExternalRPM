@@ -19,11 +19,13 @@ namespace ExternalRPM.Data
             private static long _entityBase = BaseAddress + 0x31C45B8; //MinionList
             private static long _objectManager = BaseAddress + 0x2173220; //
             private static long _minimapObject = BaseAddress + 0x4213770; //
+            private static long _gameTime = BaseAddress + 0x4213710;
 
             public static long GetLocalPlayer { get; } = Memory.Read<long>(Instances._localPlayer);
             public static long GetEntityBase { get; } = Memory.Read<long>(_entityBase);
             public static long GetobjectManager { get; } = Memory.Read<long>(_objectManager);
             public static long GetMinimapObject { get;} = Memory.Read<long>(_minimapObject);
+            public static float GetGameTime { get; } = Memory.Read<float>(_gameTime);
         }
 
         public class Object

@@ -49,7 +49,7 @@ namespace ExternalRPM
             LocalPlayer loaLocalPlayer = new LocalPlayer();
             // Create KindredTracker and CommandLineUI instances
             KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), loaLocalPlayer);
-            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray());
+            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray(), kindredTracker);
 
             // Start the countdown threads
             //commandLineUI.StartCountdownThreads();
@@ -112,7 +112,7 @@ namespace ExternalRPM
             LocalPlayer localPlayer = new LocalPlayer();
             // Create KindredTracker and CommandLineUI instances
             KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
-            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray());
+            CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray(), kindredTracker);
 
             // Start the countdown threads
             //commandLineUI.StartCountdownThreads();

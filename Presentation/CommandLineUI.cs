@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExternalRPM.Model;
+using ExternalRPM.Model.Kindred;
 
 namespace ExternalRPM.Presentation
 {
@@ -13,12 +14,14 @@ namespace ExternalRPM.Presentation
     {
         private readonly JungleCamp[] _jungleCamps;
         private readonly Thread[] _countdownThreads;
+        private readonly KindredTracker _kindredTracker;
         private readonly object _outputLock = new object();
 
-        public CommandLineUI(JungleCamp[] jungleCamps)
+        public CommandLineUI(JungleCamp[] jungleCamps, KindredTracker kindredTracker)
         {
             _jungleCamps = jungleCamps;
-            _countdownThreads = new Thread[jungleCamps.Length];
+            _kindredTracker = kindredTracker;
+            _countdownThreads = new Thread[jungleCamps.Length + 1];
         }
 
         public void StartCountdownThreads()
@@ -28,6 +31,9 @@ namespace ExternalRPM.Presentation
                 _countdownThreads[i] = new Thread(OutputCountdown);
                 _countdownThreads[i].Start(i);
             }
+            int index = _countdownThreads.Length - 1;
+            _countdownThreads[index] = new Thread(KindredMarkTimer);
+            _countdownThreads[index].Start(index);
         }
 
         public void StartSingleCountdownThread()
@@ -57,6 +63,31 @@ namespace ExternalRPM.Presentation
                 lock (_outputLock)
                 {
                     Console.ForegroundColor = colorCode;
+                    Console.SetCursorPosition(0, campIndex);
+                    Console.WriteLine(output);
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
+        public void KindredMarkTimer(object campIndexObj)
+        {
+            int campIndex = (int)campIndexObj;
+            while (true)
+            {
+                string output;
+                if (_kindredTracker.markTracker.MarkTimerRun == true)
+                {
+                    output =
+                        $"Mark: {_kindredTracker.markTracker.MarkRespawnTime.Seconds:D2}";
+                }
+                else
+                {
+                    output = $"Mark: Alive";
+                }
+                lock (_outputLock)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(0, campIndex);
                     Console.WriteLine(output);
                 }
