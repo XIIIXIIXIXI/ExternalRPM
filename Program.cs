@@ -4,15 +4,22 @@ using ExternalRPM.Model;
 using ExternalRPM.Model.Kindred;
 using ExternalRPM.Modules;
 using ExternalRPM.Presentation;
+using System.Threading.Tasks;
 
 namespace ExternalRPM
 {
     public class Program
     {
-        public static void Main()
+        public static Presentation.Overlay overlay = new Presentation.Overlay();
+        static void Main()
         {
+            Task.Run(async () =>
+            {
+                await Task.Run(() => overlay.Show());
+            }).GetAwaiter().GetResult();
+
             //ConsoleTest.TestBuffManager();
-            MainLoop();
+            //MainLoop();
         }
 
         public static void MainLoop()
@@ -30,13 +37,14 @@ namespace ExternalRPM
             EntityReader memoryReader = new EntityReader();
 
 
-            while (Offsets.Instances.GetGameTime < 210)
+            while (true)
             {
                 camps = memoryReader.GetJungleCampsEntityList();
                 foreach (JungleCamp jungleCamp in jungleCamps.Values)
                 {
                     jungleCamp.HandleEntityListChange(camps);
                 }
+                kindredTracker.UpdateMarkStatus();
                 Thread.Sleep(1000);
             }
             while (true)

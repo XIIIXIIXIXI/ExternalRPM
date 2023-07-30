@@ -76,10 +76,10 @@ namespace ExternalRPM.Presentation
             while (true)
             {
                 string output;
-                if (_kindredTracker.markTracker.MarkTimerRun == true)
+                if (_kindredTracker.markTracker.MarkTimerRun)
                 {
                     output =
-                        $"Mark: {_kindredTracker.markTracker.MarkRespawnTime.Seconds:D2}";
+                        $"Mark: {_kindredTracker.markTracker.MarkRespawnTime.Seconds:D2}       ";
                 }
                 else
                 {

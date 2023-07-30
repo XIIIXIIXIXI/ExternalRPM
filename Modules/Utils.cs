@@ -21,5 +21,9 @@ namespace ExternalRPM.Modules
                 return null;
             }
         }
+        public static bool IsGameOnDisplay()
+        {
+            return NativeImport.GetActiveWindowTitle() == "League of Legends (TM) Client";
+        }
     }
 }
