@@ -31,6 +31,7 @@ namespace ExternalRPM.Presentation
                 //minimap.DrawMinimapOverlay();
                 //minimap.DrawMarkerOnMinimap();
                 minimap.DrawRespawntimerOnMap();
+                minimap.DrawKindredMarkRespawnTimer();
                 
             }
         }

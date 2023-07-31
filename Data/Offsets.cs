@@ -15,12 +15,12 @@ namespace ExternalRPM.Data
         
         public class Instances
         {
-            //Patch 13.13
-            private static long _localPlayer = BaseAddress + 0x421F828; 
-            private static long _entityBase = BaseAddress + 0x31C45B8; //MinionList
-            private static long _objectManager = BaseAddress + 0x2173220; 
+            //Patch 13.14
+            private static long _localPlayer = BaseAddress + 0x421f8a8; //
+            private static long _entityBase = BaseAddress + 0x31c4638; //MinionList //
+            private static long _objectManager = BaseAddress + 0x21716e0; //Objectlist //
             private static long _minimapObject = BaseAddress + 0x42137f0; //
-            private static long _gameTime = BaseAddress + 0x4213710;
+            private static long _gameTime = BaseAddress + 0x4213790; //
 
             public static long GetLocalPlayer { get; } = Memory.Read<long>(Instances._localPlayer);
             public static long GetEntityBase { get; } = Memory.Read<long>(_entityBase);

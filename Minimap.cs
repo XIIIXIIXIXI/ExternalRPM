@@ -100,6 +100,21 @@ namespace ExternalRPM
             return new Vector2(x, y);
 
         }
+        // This function should be moved out of this class, but we keep it here for simplicity for now
+        public void DrawKindredMarkRespawnTimer()
+        {
+            String textToDraw;
+            Vector2 position;
+            position.X = 900;
+            position.Y = 10;
+            if (kindredTracker.markTracker.MarkTimerRun)
+            {
+                textToDraw =
+                    $"Mark: {kindredTracker.markTracker.MarkRespawnTime.Seconds:D2}";
+                Presentation.DrawFactory.DrawFont(textToDraw, FontSize: 20, position, Color.White);
+            }
+            
+        }
 
     }
     /*

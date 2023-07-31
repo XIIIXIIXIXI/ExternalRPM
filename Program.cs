@@ -21,7 +21,7 @@ namespace ExternalRPM
             overlay = new Presentation.Overlay(jungleCampsArray, kindredTracker);
             Task.Run(async () =>
             {
-                await Task.Run(() => logicLoop(jungleCamps, kindredTracker));
+                Task.Run(() => logicLoop(jungleCamps, kindredTracker));
 
                 await Task.Run(() => overlay.Show());
 
