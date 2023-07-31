@@ -50,7 +50,7 @@ namespace ExternalRPM.Presentation
             while (true)
             {
                 string output;
-                ConsoleColor colorCode = camp.Color == Color.Green ? ConsoleColor.Green : ConsoleColor.White;
+                //ConsoleColor colorCode = camp.Color == Color.Green ? ConsoleColor.Green : ConsoleColor.White;
                 if (camp.IsAlive || camp.RemainingRespawnTime <= TimeSpan.Zero)
                 {
                     output = $"{camp.Name}: Alive";
@@ -62,7 +62,7 @@ namespace ExternalRPM.Presentation
 
                 lock (_outputLock)
                 {
-                    Console.ForegroundColor = colorCode;
+                    //Console.ForegroundColor = colorCode;
                     Console.SetCursorPosition(0, campIndex);
                     Console.WriteLine(output);
                 }

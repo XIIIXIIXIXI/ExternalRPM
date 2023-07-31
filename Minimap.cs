@@ -7,47 +7,84 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ExternalRPM.Data;
+using ExternalRPM.Model;
+using ExternalRPM.Model.Kindred;
 using ExternalRPM.Modules;
 using SharpDX;
+using SharpDX.Direct3D9;
 using Color = SharpDX.Color;
 
 namespace ExternalRPM
 {
     class Minimap
     {
-        private static readonly long minimapObjectAddress;
-        private static readonly long minimapHudAddress;
-        private static float scaleFactor;
+        private readonly long minimapObjectAddress;
+        private readonly long minimapHudAddress;
+        private float scaleFactor;
 
-        static Minimap()
+        private JungleCamp[] jungleCamps;
+        private KindredTracker kindredTracker;
+
+        public Minimap(JungleCamp[] jungleCamps, KindredTracker kindredTracker)
         {
+            this.jungleCamps = jungleCamps;
+            this.kindredTracker = kindredTracker;
             minimapObjectAddress = Offsets.Instances.GetMinimapObject;
             minimapHudAddress = Memory.Read<long>(minimapObjectAddress + Offsets.Object.MinimapObjectHud);
             scaleFactor = getScaleFactor();
         }
 
-        public static void DrawMinimapOverlay()
+        public void DrawMinimapOverlay()
         {
             Vector2 vector = getMinimapPosition();
             float minimapSize = getMinimapSize();
             Presentation.DrawFactory.DrawFilledBox(vector.X, vector.Y, minimapSize, minimapSize, Color.Aqua);
         }
-        private static float getWorldSize()
+
+        public void DrawMarkerOnMinimap()
+        {
+            foreach (var camp in jungleCamps)
+            {
+                Vector2 vector = WorldToMap(camp.PositionX, camp.PositionY);
+                Presentation.DrawFactory.DrawPoint(vector.X, vector.Y, Color.Red);
+            }
+
+        }
+
+        public void DrawRespawntimerOnMap()
+        {
+            String textToDraw;
+            Vector2 position;
+            foreach (var camp in jungleCamps)
+            {
+                if (camp.IsAlive || camp.RemainingRespawnTime <= TimeSpan.Zero)
+                {
+                }
+                else
+                {
+                    Color colorCode = camp.Color == Color.Green ? Color.Green : Color.White;
+                    position = WorldToMap(camp.PositionX, camp.PositionY);
+                    textToDraw = $"{camp.RemainingRespawnTime.Minutes}:{camp.RemainingRespawnTime.Seconds:D2}";
+                    Presentation.DrawFactory.DrawFont(textToDraw, FontSize: 20, position, Color.White);
+                }
+            }
+        }
+        private float getWorldSize()
         {
             return Memory.Read<float>(minimapHudAddress + Offsets.Object.WorldSize);
         }
 
-        private static float getMinimapSize()
+        private float getMinimapSize()
         {
             return Memory.Read<float>(minimapHudAddress + Offsets.Object.MinimapHudSize);
         }
 
-        private static float getScaleFactor()
+        private float getScaleFactor()
         {
-            return getMinimapSize() - getWorldSize();
+            return getMinimapSize() / getWorldSize();
         }
 
-        private static Vector2 getMinimapPosition()
+        private Vector2 getMinimapPosition()
         {
             float minimapPosX = Memory.Read<float>(minimapHudAddress + Offsets.Object.MinimapHudPosX);
             float minimapPosY = Memory.Read<float>(minimapHudAddress + Offsets.Object.MinimapHudPosY);

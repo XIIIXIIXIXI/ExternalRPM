@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ExternalRPM.Model;
+using ExternalRPM.Model.Kindred;
 using ExternalRPM.Modules;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -16,14 +18,18 @@ namespace ExternalRPM.Presentation
 {
     public partial class Overlay : Form
     {
-        public Overlay()
+        private JungleCamp[] jungleCamps;
+        private readonly KindredTracker kindredTracker;
+        public Overlay(JungleCamp[] jungleCamps, KindredTracker kindredTracker)
         {
             InitializeComponent();
+            this.jungleCamps = jungleCamps;
+            this.kindredTracker = kindredTracker;
         }
 
         internal void OnDraw()
         {
-            Presentation.Drawing.OnDeviceDraw();
+            Drawing drawing = new Drawing(jungleCamps, kindredTracker);
             RenderLoop.Run(this, () =>
             {
                  NativeImport.BringWindowToTop(this.Handle);
@@ -40,7 +46,8 @@ namespace ExternalRPM.Presentation
 
                 //Change this with a draw handler
                 //DrawFactory.DrawFilledBox(200, 200, 600, 600, Color.Aqua);
-                
+                drawing.OnDeviceDraw();
+                //Presentation.Drawing.OnDeviceDraw(jungleCamps);
 
                 DrawFactory.device.EndScene();
                 DrawFactory.device.Present();

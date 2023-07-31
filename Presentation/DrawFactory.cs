@@ -84,5 +84,12 @@ namespace ExternalRPM.Presentation
             /*              Example             */
             /* DrawFilledBox(x , y, w, h, color); */
         }
+        public static void DrawPoint(float x, float y, Color color)
+        {
+            DrawFilledBox(x, y, 1, 1, color);
+
+            /*           Example            */
+            /* DrawPoint(x Axis, y Axis, Color */
+        }
     }
 }

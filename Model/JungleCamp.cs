@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpDX;
+using Color = SharpDX.Color;
 
 namespace ExternalRPM.Model
 {
@@ -79,6 +81,11 @@ namespace ExternalRPM.Model
             }
         }
 
+        public Vector2 GetPosition()
+        {
+            return new Vector2(PositionX, PositionY);
+        }
+
         public static Dictionary<string, JungleCamp> InitializeJungleCamps()
         {
             Dictionary<string, JungleCamp> jungleCamps = new Dictionary<string, JungleCamp>(14); // Initialize with expected capacity
@@ -124,6 +131,7 @@ namespace ExternalRPM.Model
 
             return jungleCamps;
         }
+
     }
 
 

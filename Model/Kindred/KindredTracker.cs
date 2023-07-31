@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +32,8 @@ namespace ExternalRPM.Model.Kindred
                 ResetCampColors();
                 foreach (var index in nextPotentialCampIndices)
                 {
-                    jungleCamps[index].Color = Color.Green;
+
+                    jungleCamps[index].Color = SharpDX.Color.Green;
                 }
             }
             else
@@ -46,7 +46,7 @@ namespace ExternalRPM.Model.Kindred
         {
             foreach (var camp in jungleCamps)
             {
-                camp.Color = Color.White;
+                camp.Color = SharpDX.Color.White;
             }
         }
         private void FindNextPotentialCamps(bool isBlueTeam, int markCounter)
