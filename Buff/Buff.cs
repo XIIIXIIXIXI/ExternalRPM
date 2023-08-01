@@ -8,6 +8,11 @@ using ExternalRPM.Modules;
 
 namespace ExternalRPM.Buff
 {
+    /*
+    Description:
+    This class represents all the attributes a buff instance has in the game. It extends the CachedClass to leverage caching functionality for 
+    efficiency. The class provides properties to retrieve information about the buff, such as its name, start time, end time, and count.
+*/
     public class Buff : CachedClass
     {
         public readonly long address;

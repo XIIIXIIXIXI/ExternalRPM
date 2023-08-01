@@ -7,6 +7,20 @@ using ExternalRPM.Modules;
 
 namespace ExternalRPM.Model.Kindred
 {
+    /*
+    KindredTracker Class
+
+    Description:
+    This class is responsible for tracking the status of jungle camps relevant to Kindred's marks in the game. 
+    It utilizes a list of JungleCamp objects and a LocalPlayer instance to monitor the status of the camps.
+    The class also works in conjunction with the MarkTracker class to keep track of Kindred's marks.
+
+    Methods:
+    - UpdateMarkStatus(): Updates the status of the jungle camps based on Kindred's marks.
+    - ResetCampColors(): Resets the color of all jungle camps to their default value.
+    - FindNextPotentialCamps(bool isBlueTeam, int markCounter): Identifies the next potential jungle camps for Kindred's marks based on the player's team and current mark count.
+    - GetLowestRespawnTimeIndex(List<JungleCamp> camps): Returns the index of the jungle camp with the shortest remaining respawn time from the given list of jungle camps.
+*/
     public class KindredTracker
     {
         private readonly List<JungleCamp> jungleCamps;

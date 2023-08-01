@@ -16,6 +16,24 @@ using Color = SharpDX.Color;
 
 namespace ExternalRPM
 {
+    /*
+    Description:
+    This class handles the rendering and drawing of the in-game minimap and related elements, such as markers for jungle camps, 
+    respawn timers, and Kindred's mark respawn timer.
+
+    Public Methods:
+    - DrawMinimapOverlay(): Draws the overlay of the minimap on the screen.
+    - DrawMarkerOnMinimap(): Draws markers on the minimap for jungle camps.
+    - DrawRespawntimerOnMap(): Draws the remaining respawn time for jungle camps on the minimap.
+    - DrawKindredMarkRespawnTimer(): Draws the remaining time for Kindred's mark respawn timer on the screen.
+    - WorldToMap(float posX, float posY): Converts world coordinates to minimap coordinates.
+
+    Private Methods:
+    - getWorldSize(): Gets the world size from the game's memory.
+    - getMinimapSize(): Gets the minimap size from the game's memory.
+    - getScaleFactor(): Calculates the scale factor for converting world coordinates to minimap coordinates.
+    - getMinimapPosition(): Gets the position of the minimap on the screen.
+*/
     class Minimap
     {
         private readonly long minimapObjectAddress;

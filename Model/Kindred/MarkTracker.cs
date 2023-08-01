@@ -7,6 +7,19 @@ using ExternalRPM.Buff;
 
 namespace ExternalRPM.Model.Kindred
 {
+    /*
+    Description:
+    This class is responsible for tracking and managing Kindred's marks in the game. 
+    It keeps track of the number of marks acquired by Kindred and the respawn time of the next mark.
+
+    Methods:
+    - StartMarkTracking(KindredTracker kindredTracker): Starts the thread for tracking Kindred's marks.
+    - TrackMark(): The main method responsible for continuously monitoring Kindred's mark status and count.
+    - StartMarkTimer(): Starts the timer to track the remaining respawn time of the next mark.
+    - ExtractMarkBuffFromBuffs(List<Buff.Buff> buffs): Extracts the latest Kindred mark buff from the list of buffs.
+    - CheckMarkStatus(): Checks if a Kindred mark is currently active or not.
+    - GetMarkCount(): Retrieves the number of Kindred marks acquired by the player.
+*/
     public class MarkTracker
     {
         public bool IsMarkActive { get; set; } = false;
@@ -14,12 +27,10 @@ namespace ExternalRPM.Model.Kindred
         public TimeSpan MarkRespawnTime = TimeSpan.FromSeconds(45);
         public bool MarkTimerRun = false;
         BuffManager buffManager = new BuffManager();
-        //private KindredTracker kindredTracker;
         private readonly object lockObject = new object();
 
         public void StartMarkTracking(KindredTracker kindredTracker)
         {
-            //this.kindredTracker = kindredTracker;
             Thread markTrackingThread = new Thread(TrackMark);
             markTrackingThread.Start();
         }
@@ -45,8 +56,6 @@ namespace ExternalRPM.Model.Kindred
                     }
                     MarkCount = GetMarkCount();
                 }
-
-                // You can adjust the sleep duration based on how frequently you want to check for mark changes
                 Thread.Sleep(1000);
             }
         }

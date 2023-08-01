@@ -8,20 +8,22 @@ using System.Threading.Tasks;
 
 namespace ExternalRPM.Modules
 {
+    /*
+    Description:
+    This class contains various methods that provide access to native Windows functions through DLL imports.
+    It offers functionality related to process memory reading, window handling, window attributes, and more.
+
+    Methods:
+    - ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead): Reads the memory of a specified process.
+    - BringWindowToTop(IntPtr hWnd): Brings the specified window to the top of the Z order.
+    - SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong): Changes attributes of the specified window.
+    - GetWindowLong(IntPtr hWnd, int nIndex): Retrieves information about the specified window.
+    - SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags): Sets the opacity and transparency of a layered window.
+    - GetActiveWindowTitle(): Retrieves the title of the currently active window.
+    - DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Presentation.DrawFactory.Margins pMargins): Extends the window frame into the client area.
+*/
     class NativeImport
     {
-        public const int SW_HIDE = 0;
-        public const int SW_SHOW = 5;
-        public const int MY_CODE_PAGE = 437;
-        public const uint GENERIC_WRITE = 0x40000000;
-        public const uint GENERIC_READ = 0x80000000;
-        public const uint FILE_SHARE_WRITE = 0x2;
-        public const uint OPEN_EXISTING = 0x3;
-
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HTCAPTION = 0x2;
-
-        public const int DefaultCodePage = 437;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool ReadProcessMemory(

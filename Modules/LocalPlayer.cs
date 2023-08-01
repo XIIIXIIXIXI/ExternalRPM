@@ -8,6 +8,16 @@ using ExternalRPM.Data;
 
 namespace ExternalRPM.Modules
 {
+    /*
+    LocalPlayer Class
+
+    Description:
+    This class represents the local player in the game E.g yourself. It provides functionality to retrieve and update the local player's health, max health, and team information.
+    Additionally, it allows fetching the addresses of active buffs and their corresponding names for the local player.
+
+    - GetBuffAddresses(): Retrieves an array of addresses for active buffs of the local player from memory.
+    - GetBuffName(long[] buffAddresses): Given an array of buff addresses, fetches the names of the corresponding buffs from memory and returns them as a string array.
+    */
     public class LocalPlayer
     {
         public long BaseAddress { get; }

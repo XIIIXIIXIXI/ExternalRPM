@@ -8,6 +8,16 @@ using System.Threading.Tasks;
 
 namespace ExternalRPM.Modules
 {
+    /*
+    Description:
+    This class provides methods to read data from the memory of the League of Legends process.
+    It utilizes native Windows functions via the NativeImport class for reading process memory.
+
+    Methods:
+    - Read<T>(long Address): Reads data of type T from the specified memory address in the League of Legends process.
+    - ReadString(long address, int size): Reads a string of the specified size from the memory address in the League of Legends process.
+
+*/
     class Memory
     {
         private static IntPtr GetLeagueProcessHandle()

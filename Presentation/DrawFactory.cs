@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.Windows;
-using SharpDX.Direct3D9;
 using SharpDX.Direct3D;
 using SharpDX.Mathematics.Interop;
 using Color = SharpDX.Color;

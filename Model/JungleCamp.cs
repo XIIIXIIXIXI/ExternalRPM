@@ -9,12 +9,23 @@ using Color = SharpDX.Color;
 
 namespace ExternalRPM.Model
 {
+    /*
+     Description:
+    This class represents a jungle camp in the game. It holds information about the camp's name, memory address, respawn time, position, and status. 
+    The class provides methods to handle changes in the entity list, updating the camp's status when it is cleared or becomes alive again. 
+    Additionally, a countdown thread is utilized to track the remaining respawn time after the camp is cleared.
+
+    Public Methods:
+    - HandleEntityListChange(HashSet<string> entityList): Handles changes in the entity list and updates the camp's status accordingly.
+    - _CountdownThreadLogic(): A thread method that tracks the remaining respawn time after the camp is cleared.
+    - InitializeJungleCamps(): A static method that initializes a dictionary of jungle camps with their respective properties.
+     */
     public class JungleCamp
     {
-        public string MemoryId { get; set; } //name in memory
+        public string MemoryId { get; set; } //address of name in memory
         public string Name { get; set; } //readable name
 
-        public TimeSpan RespawnTime { get; set; } //Respawn before dead
+        public TimeSpan RespawnTime { get; set; } //Default start respawnTime
 
         public TimeSpan RemainingRespawnTime { get; set; } //time untill respawn
         public bool IsAlive { get; set; }
@@ -26,11 +37,6 @@ namespace ExternalRPM.Model
 
         private Thread _countdownThread;
         private volatile bool _stopCountdown;
-
-        public JungleCamp()
-        {
-            //_countdownThread = new Thread(_CountdownThreadLogic);
-        }
 
         public void HandleEntityListChange(HashSet<string> entityList)
         {
@@ -80,12 +86,6 @@ namespace ExternalRPM.Model
                 RemainingRespawnTime -= TimeSpan.FromSeconds(1);
             }
         }
-
-        public Vector2 GetPosition()
-        {
-            return new Vector2(PositionX, PositionY);
-        }
-
         public static Dictionary<string, JungleCamp> InitializeJungleCamps()
         {
             Dictionary<string, JungleCamp> jungleCamps = new Dictionary<string, JungleCamp>(14); // Initialize with expected capacity
@@ -133,6 +133,4 @@ namespace ExternalRPM.Model
         }
 
     }
-
-
 }

@@ -7,6 +7,15 @@ using ExternalRPM.Data;
 
 namespace ExternalRPM.Modules
 {
+    /*
+    Description:
+    This class is responsible for reading entity data from the game's memory. It specifically focuses on gathering information about jungle camps.
+    It utilizes memory offsets to access the entity list and extract relevant data about jungle camps.
+
+    Public Methods:
+    - GetJungleCampsEntityList(): Retrieves a HashSet of strings containing the names of jungle camps found in the entity list.
+
+*/
     public class EntityReader
     {
         //static fields that never changes:

@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace ExternalRPM.Data
 {
+    /*
+    Description:
+    This class contains memory offsets for various game data, such as player information, object details, buffs, and minimap data. 
+    The offsets are used to access specific memory locations where the game stores relevant information.
+
+    Important: Memory offsets are specific to the game version and needs updating when the game receives patches or updates.
+*/
     //13.14.522.7601
     internal class Offsets
     {
