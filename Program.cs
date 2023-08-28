@@ -14,6 +14,17 @@ namespace ExternalRPM
         public static Presentation.Overlay overlay; // = new Presentation.Overlay();
         static void Main()
         {
+            //Release();
+
+            Offsets.GameObject[] champs = ChampionReader.ReadChampions();
+            Champion[] champions = Champion.CreateChampionsFromGameObjects(champs);
+            Thread.Sleep(1000);
+
+
+        }
+
+        public static void Release()
+        {
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
             JungleCamp[] jungleCampsArray = jungleCamps.Values.ToArray();
             LocalPlayer localPlayer = new LocalPlayer();
@@ -21,17 +32,13 @@ namespace ExternalRPM
             overlay = new Presentation.Overlay(jungleCampsArray, kindredTracker);
             Task.Run(async () =>
             {
-                Task.Run(() => logicLoop(jungleCamps, kindredTracker));
+                Task.Run(() => campManager(jungleCamps, kindredTracker));
 
                 await Task.Run(() => overlay.Show());
 
             }).GetAwaiter().GetResult();
-
-            //ConsoleTest.TestBuffManager();
-            //MainLoop();
         }
-
-        public static void logicLoop(Dictionary<string, JungleCamp> jungleCamps, KindredTracker kindredTracker)
+        public static void campManager(Dictionary<string, JungleCamp> jungleCamps, KindredTracker kindredTracker)
         {
             HashSet<string> camps = new HashSet<string>();
             EntityReader memoryReader = new EntityReader();

@@ -1,7 +1,9 @@
 ﻿using ExternalRPM.Modules;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +17,7 @@ namespace ExternalRPM.Data
     Important: Memory offsets are specific to the game version and needs updating when the game receives patches or updates.
 */
     //13.14.522.7601
-    internal class Offsets
+    public class Offsets
     {
         public static long BaseAddress = Utils.GetLeagueProcess().MainModule.BaseAddress.ToInt64();
 
@@ -23,25 +25,27 @@ namespace ExternalRPM.Data
         public class Instances
         {
             //Patch 13.14
-            private static long _localPlayer = BaseAddress + 0x421f8a8; //
-            private static long _entityBase = BaseAddress + 0x31c4638; //MinionList //
-            private static long _objectManager = BaseAddress + 0x21716e0; //Objectlist //
-            private static long _minimapObject = BaseAddress + 0x42137f0; //
-            private static long _gameTime = BaseAddress + 0x4213790; //
+            private static long _localPlayer = BaseAddress + 0x421f8a8; 
+            private static long _entityBase = BaseAddress + 0x31c4638; 
+            private static long _objectManager = BaseAddress + 0x21716e0; 
+            private static long _minimapObject = BaseAddress + 0x42137f0; 
+            private static long _gameTime = BaseAddress + 0x4213790; 
+            private static long _heroList = BaseAddress + 0x219D000; //
 
             public static long GetLocalPlayer { get; } = Memory.Read<long>(Instances._localPlayer);
             public static long GetEntityBase { get; } = Memory.Read<long>(_entityBase);
             public static long GetobjectManager { get; } = Memory.Read<long>(_objectManager);
             public static long GetMinimapObject { get;} = Memory.Read<long>(_minimapObject);
             public static float GetGameTime { get; } = Memory.Read<float>(_gameTime);
+            public static long GetHeroList { get; } = Memory.Read<long>(_heroList);
         }
 
         public class Object
         {
             //LocalPlayer
-            public static int Health = 0x1068;
-            public static int MaxHealth = 0x1080;
-            public static int PlayerTeam = 0x3C;
+            public static long Health = 0x1058; //
+            public static long MaxHealth = 0x1070; //
+            public static long PlayerTeam = 0x3C;
 
             //minionlist
             public static int EntityCount = 0x10; 
@@ -63,7 +67,7 @@ namespace ExternalRPM.Data
             //objectManager
             public static long ObjectMapCount = 0x48; 
             public static long ObjectMapRoot = 0x40; 
-            public static long ObjectName = 0x3848;
+            public static long ObjectName = 0x3838;
 
             //minimap
             public static long MinimapObjectHud = 0x320; 
@@ -72,6 +76,82 @@ namespace ExternalRPM.Data
             public static long MinimapHudSize = 0x68; 
             public static long WorldSize = 0x28;
 
+            //Champ Data
+            public static long Position = 0x220;//
+            public static long TeamID = 0x3C;//
+            public static int NetworkID = 0x10;
+
+            public static long IsVisible= 0x310; //%2 for true false
+            public static long IsAlive = 0x328; //%2 for true false
+
+        }
+        //[[baseAdress + Herolist] + 0x8] + i * 0x8
+        // 
+        [StructLayout(LayoutKind.Explicit)]
+        public unsafe struct ObjectNode
+        {
+            [FieldOffset(0x0)]
+            public fixed long nodes[3];
+            [FieldOffset(0x20)]
+            public long netId;
+            [FieldOffset(0x28)]
+            public long nodeObject;
+
+        }
+        /*
+        [StructLayout(LayoutKind.Explicit)]
+        public unsafe struct GameObject
+        {
+
+            [FieldOffset(0x1058)] //
+            public float Health; 
+            [FieldOffset(0x220)] 
+            public Vector3 Position;
+            [FieldOffset(0x1070)] //
+            public float HealthMaximum;
+            [FieldOffset(0x3C)] //
+            public int TeamID;
+            [FieldOffset(0x10)]
+            public int NetworkID;
+            [FieldOffset(0x3FF0)]
+            public int Level;
+
+            [FieldOffset(0x310)] public int IsVisible; //%2 for true false
+            [FieldOffset(0x328)] public int IsAlive; //%2 for true false
+            [FieldOffset(0xEB0)] public int IsTargetAble;
+
+
+        }*/
+        public unsafe struct GameObject
+        {
+            public long memoryID;
+
+            // Other fields relative to memoryID
+            public string Name;
+            public float Health;
+            public Vector3 Position;
+            public float HealthMaximum;
+            public int TeamID;
+            public int NetworkID;
+            public int Level;
+            public bool IsVisible;
+            public bool IsAlive;
+
+            public GameObject(long initialMemoryID)
+            {
+                memoryID = initialMemoryID;
+
+                // Calculate the offsets relative to memoryID
+                Name = Memory.ReadString(memoryID + Offsets.Object.ObjectName, 20);
+                Health = Memory.Read<float>(memoryID + 0x1058);
+                Position = Memory.Read<Vector3>(memoryID + 0x220);
+                HealthMaximum = Memory.Read<float>(memoryID + 0x1070);
+                TeamID = Memory.Read<int>(memoryID + 0x3C);
+                NetworkID = Memory.Read<int>(memoryID + 0x10);
+                Level = Memory.Read<int>(memoryID + 0x3FF0);
+                IsVisible = Memory.Read<int>(memoryID + 0x310) % 2 == 1;
+                IsAlive = Memory.Read<int>(memoryID + 0x328) % 2 == 0;
+            }
         }
     }
 }
