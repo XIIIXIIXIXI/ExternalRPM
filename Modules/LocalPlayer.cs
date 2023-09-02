@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ExternalRPM.Data;
+using SharpDX;
 
 namespace ExternalRPM.Modules
 {
@@ -25,6 +26,7 @@ namespace ExternalRPM.Modules
         public float Health { get; private set; }
         public float MaxHealth { get; private set; }
         public bool IsBlueTeam { get; private set; }
+        public Vector3 position { get; private set; }
 
         public LocalPlayer()
         {
@@ -46,6 +48,12 @@ namespace ExternalRPM.Modules
         public void UpdateMaxHealth()
         {
             MaxHealth = Memory.Read<float>(BaseAddress + Offsets.Object.MaxHealth);
+        }
+
+        public Vector3 GetPosition()
+        {
+            return Memory.Read<Vector3>(BaseAddress + Offsets.Object.Position);
+            
         }
 
         public long[] GetBuffAddresses()

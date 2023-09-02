@@ -6,6 +6,8 @@ using ExternalRPM.Model.Kindred;
 using ExternalRPM.Modules;
 using ExternalRPM.Presentation;
 using System.Threading.Tasks;
+using SharpDX;
+using System.Diagnostics;
 
 namespace ExternalRPM
 {
@@ -15,14 +17,26 @@ namespace ExternalRPM
         public static Presentation.Overlay overlay; // = new Presentation.Overlay();
         static void Main()
         {
-            //Release();
+           
 
+            //Release();
+            LocalPlayer localPlayer = new LocalPlayer();
             Offsets.GameObject[] champs = ChampionReader.ReadChampions();
             Champion[] champions = Champion.CreateChampionsFromGameObjects(champs);
-            (Matrix viewMatrix, Matrix projectionMatrix) = Renderer.
+
+            while (true)
+            {
+                (Matrix viewMatrix, Matrix projectionMatrix) = Renderer.GetMatrices();
+                //Debug.WriteLine($"View X: {viewMatrix.M41}, Y: {viewMatrix.M42}, Z: {viewMatrix.M43}");
+                Vector3 screenPosition;
+                var w2s = Renderer.WorldToScreen(localPlayer.GetPosition(), out screenPosition); 
+                //Thread.Sleep(1000);
+            }
+            
+
             //var matrix = Renderer.GetViewMatrix();
             //var projMatrix = Renderer.GetProjectionMatrix();
-            Thread.Sleep(1000);
+            
             
 
         }

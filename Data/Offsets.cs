@@ -43,7 +43,7 @@ namespace ExternalRPM.Data
             public static long GetHeroList { get; } = Memory.Read<long>(_heroList);
             public static long GetRenderer { get; } = Memory.Read<long>(_renderer);
             public static long GetViewPort { get; } = Memory.Read<long>(_viewPort);
-            public static long GetViewMatrix { get; } = Memory.Read<long>(_viewMatrix);
+            public static long GetViewMatrix { get; } = _viewMatrix;
         }
 
         public class Object
