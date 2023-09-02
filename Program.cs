@@ -1,4 +1,5 @@
-﻿using ExternalRPM.Buff;
+﻿using System.Drawing.Text;
+using ExternalRPM.Buff;
 using ExternalRPM.Data;
 using ExternalRPM.Model;
 using ExternalRPM.Model.Kindred;
@@ -18,13 +19,17 @@ namespace ExternalRPM
 
             Offsets.GameObject[] champs = ChampionReader.ReadChampions();
             Champion[] champions = Champion.CreateChampionsFromGameObjects(champs);
+            (Matrix viewMatrix, Matrix projectionMatrix) = Renderer.
+            //var matrix = Renderer.GetViewMatrix();
+            //var projMatrix = Renderer.GetProjectionMatrix();
             Thread.Sleep(1000);
-
+            
 
         }
 
         public static void Release()
         {
+
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
             JungleCamp[] jungleCampsArray = jungleCamps.Values.ToArray();
             LocalPlayer localPlayer = new LocalPlayer();

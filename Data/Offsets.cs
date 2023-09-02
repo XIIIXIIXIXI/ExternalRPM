@@ -25,12 +25,15 @@ namespace ExternalRPM.Data
         public class Instances
         {
             //Patch 13.14
-            private static long _localPlayer = BaseAddress + 0x421f8a8; 
+            private static long _localPlayer = BaseAddress + 0x21AD080; //
             private static long _entityBase = BaseAddress + 0x31c4638; 
-            private static long _objectManager = BaseAddress + 0x21716e0; 
-            private static long _minimapObject = BaseAddress + 0x42137f0; 
-            private static long _gameTime = BaseAddress + 0x4213790; 
-            private static long _heroList = BaseAddress + 0x219D000; //
+            private static long _objectManager = BaseAddress + 0x2192E08; //
+            private static long _minimapObject = BaseAddress + 0x21A1FB0; //
+            private static long _gameTime = BaseAddress + 0x21A1F48; //
+            private static long _heroList = BaseAddress + 0x2192f28; //
+            private static long _renderer = BaseAddress + 0x21fea90; //
+            private static long _viewPort = BaseAddress + 0x2195CC8; //
+            private static long _viewMatrix = BaseAddress + 0x21F6110;
 
             public static long GetLocalPlayer { get; } = Memory.Read<long>(Instances._localPlayer);
             public static long GetEntityBase { get; } = Memory.Read<long>(_entityBase);
@@ -38,6 +41,9 @@ namespace ExternalRPM.Data
             public static long GetMinimapObject { get;} = Memory.Read<long>(_minimapObject);
             public static float GetGameTime { get; } = Memory.Read<float>(_gameTime);
             public static long GetHeroList { get; } = Memory.Read<long>(_heroList);
+            public static long GetRenderer { get; } = Memory.Read<long>(_renderer);
+            public static long GetViewPort { get; } = Memory.Read<long>(_viewPort);
+            public static long GetViewMatrix { get; } = Memory.Read<long>(_viewMatrix);
         }
 
         public class Object
@@ -46,6 +52,7 @@ namespace ExternalRPM.Data
             public static long Health = 0x1058; //
             public static long MaxHealth = 0x1070; //
             public static long PlayerTeam = 0x3C;
+            public static long AttackRange = 0x16B4; //
 
             //minionlist
             public static int EntityCount = 0x10; 
@@ -83,7 +90,18 @@ namespace ExternalRPM.Data
 
             public static long IsVisible= 0x310; //%2 for true false
             public static long IsAlive = 0x328; //%2 for true false
+        }
 
+        public class Renderer
+        {
+            public static long RendererWidth = 0x0C;
+            public static long RendererHeight = 0x10;
+        }
+
+        public class ViewPort
+        {
+            public static long MiddleScreenPosX = 0x08; // + 120 for center of champion when pressing space
+            public static long MiddleScreenPosY = 0x28;
         }
         //[[baseAdress + Herolist] + 0x8] + i * 0x8
         // 
@@ -143,14 +161,14 @@ namespace ExternalRPM.Data
 
                 // Calculate the offsets relative to memoryID
                 Name = Memory.ReadString(memoryID + Offsets.Object.ObjectName, 20);
-                Health = Memory.Read<float>(memoryID + 0x1058);
-                Position = Memory.Read<Vector3>(memoryID + 0x220);
-                HealthMaximum = Memory.Read<float>(memoryID + 0x1070);
-                TeamID = Memory.Read<int>(memoryID + 0x3C);
-                NetworkID = Memory.Read<int>(memoryID + 0x10);
+                Health = Memory.Read<float>(memoryID + Offsets.Object.Health);
+                Position = Memory.Read<Vector3>(memoryID + Offsets.Object.Position);
+                HealthMaximum = Memory.Read<float>(memoryID + Offsets.Object.MaxHealth);
+                TeamID = Memory.Read<int>(memoryID + Offsets.Object.TeamID);
+                NetworkID = Memory.Read<int>(memoryID + Offsets.Object.NetworkID);
                 Level = Memory.Read<int>(memoryID + 0x3FF0);
-                IsVisible = Memory.Read<int>(memoryID + 0x310) % 2 == 1;
-                IsAlive = Memory.Read<int>(memoryID + 0x328) % 2 == 0;
+                IsVisible = Memory.Read<int>(memoryID + Offsets.Object.IsVisible) % 2 == 1;
+                IsAlive = Memory.Read<int>(memoryID + Offsets.Object.IsAlive) % 2 == 0;
             }
         }
     }

@@ -19,14 +19,6 @@ namespace ExternalRPM.Modules
             Offsets.GameObject[] output = new Offsets.GameObject[count];
             for (int i = 0; i < count; i++)
             {
-                /*
-                Offsets.GameObject.memoryID = Memory.Read<long>(objectManagerRootNode + i * 0x8);
-                var objectToScan = Memory.Read<long>(objectManagerRootNode + i * 0x8);
-                var readObject = Memory.Read<Offsets.GameObject>(Offsets.GameObject.memoryID);
-                readObject.
-                string name = Memory.ReadString(Offsets.GameObject.memoryID + Offsets.Object.ObjectName, 20);
-                output[i] = readObject;
-                */
                 long memoryID = Memory.Read<long>(objectManagerRootNode + i * 0x8);
                 Offsets.GameObject instance = new Offsets.GameObject(memoryID);
                 output[i] = instance;
