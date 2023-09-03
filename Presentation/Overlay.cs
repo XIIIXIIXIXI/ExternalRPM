@@ -19,18 +19,16 @@ namespace ExternalRPM.Presentation
 {
     public partial class Overlay : Form
     {
-        private JungleCamp[] jungleCamps;
-        private readonly KindredTracker kindredTracker;
-        public Overlay(JungleCamp[] jungleCamps, KindredTracker kindredTracker)
+        private readonly Mediator mediator;
+        public Overlay(Mediator mediator)
         {
             InitializeComponent();
-            this.jungleCamps = jungleCamps;
-            this.kindredTracker = kindredTracker;
+            this.mediator = mediator;
         }
 
         internal void OnDraw()
         {
-            Drawing drawing = new Drawing(jungleCamps, kindredTracker);
+            Drawing drawing = new Drawing(mediator);
             RenderLoop.Run(this, () =>
             {
                  NativeImport.BringWindowToTop(this.Handle);
@@ -47,7 +45,8 @@ namespace ExternalRPM.Presentation
 
                 //Change this with a draw handler
                 //DrawFactory.DrawFilledBox(200, 200, 600, 600, Color.Aqua);
-                drawing.OnDeviceDraw();
+                //drawing.OnDeviceDrawMinimap();
+                drawing.OnDeviceDrawAttackRange();
                 //Presentation.Drawing.OnDeviceDraw(jungleCamps);
 
                 DrawFactory.device.EndScene();
@@ -99,7 +98,7 @@ namespace ExternalRPM.Presentation
                 };
 
                 DrawFactory.font = new SharpDX.Direct3D9.Font(DrawFactory.device, fontDescription);
-                //DrawFactory.InitialiseCircleDrawing(DrawFactory.device);
+                DrawFactory.InitialiseCircleDrawing(DrawFactory.device);
 
                 IsInitialised = true;
 

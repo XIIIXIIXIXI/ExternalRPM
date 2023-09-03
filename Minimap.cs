@@ -34,7 +34,7 @@ namespace ExternalRPM
     - getScaleFactor(): Calculates the scale factor for converting world coordinates to minimap coordinates.
     - getMinimapPosition(): Gets the position of the minimap on the screen.
 */
-    class Minimap
+    public class Minimap
     {
         private readonly long minimapObjectAddress;
         private readonly long minimapHudAddress;

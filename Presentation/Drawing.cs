@@ -14,26 +14,28 @@ namespace ExternalRPM.Presentation
 {
     class Drawing
     {
-        private JungleCamp[] jungleCamps;
+        private Mediator mediator;
         private Minimap minimap;
-        private KindredTracker kindredTracker;
-        public Drawing(JungleCamp[] jungleCamps, KindredTracker kindredTracker)
+
+        public Drawing(Mediator mediator)
         {
-            this.jungleCamps = jungleCamps;
-            this.kindredTracker = kindredTracker;
-            this.minimap = new Minimap(this.jungleCamps, this.kindredTracker);
+            this.mediator = mediator;
+           
         }
 
-        public void OnDeviceDraw()
+        public void OnDeviceDrawMinimap()
         {
             if (Utils.IsGameOnDisplay())
             {
                 //minimap.DrawMinimapOverlay();
                 //minimap.DrawMarkerOnMinimap();
-                minimap.DrawRespawntimerOnMap();
-                minimap.DrawKindredMarkRespawnTimer();
-                
+                mediator.Minimap.DrawRespawntimerOnMap();
+                mediator.Minimap.DrawKindredMarkRespawnTimer();
             }
+        }
+        public void OnDeviceDrawAttackRange()
+        {
+            mediator.ToggleAttackRange();
         }
     }
 }

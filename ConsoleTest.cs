@@ -46,7 +46,7 @@ namespace ExternalRPM
         {
             // Initialize jungle camps
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
-            LocalPlayer loaLocalPlayer = new LocalPlayer();
+            LocalPlayer loaLocalPlayer = LocalPlayer.GetInstance();
             // Create KindredTracker and CommandLineUI instances
             KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), loaLocalPlayer);
             CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray(), kindredTracker);
@@ -109,7 +109,7 @@ namespace ExternalRPM
         public static void ConsoleTestFinal()
         {
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
-            LocalPlayer localPlayer = new LocalPlayer();
+            LocalPlayer localPlayer = LocalPlayer.GetInstance();
             // Create KindredTracker and CommandLineUI instances
             KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
             CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray(), kindredTracker);

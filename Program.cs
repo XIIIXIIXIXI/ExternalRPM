@@ -17,13 +17,27 @@ namespace ExternalRPM
         public static Presentation.Overlay overlay; // = new Presentation.Overlay();
         static void Main()
         {
-           
+
 
             //Release();
-            LocalPlayer localPlayer = new LocalPlayer();
-            Offsets.GameObject[] champs = ChampionReader.ReadChampions();
-            Champion[] champions = Champion.CreateChampionsFromGameObjects(champs);
+            UnitRadiusService.ParseUnitRadiusData();
+            Mediator mediator = new Mediator();
+            overlay = new Presentation.Overlay(mediator);
+            Task.Run(async () =>
+            {
 
+                await Task.Run(() => overlay.Show());
+
+            }).GetAwaiter().GetResult();
+
+
+
+
+
+
+
+
+            /*
             while (true)
             {
                 (Matrix viewMatrix, Matrix projectionMatrix) = Renderer.GetMatrices();
@@ -32,52 +46,33 @@ namespace ExternalRPM
                 var w2s = Renderer.WorldToScreen(localPlayer.GetPosition(), out screenPosition); 
                 //Thread.Sleep(1000);
             }
-            
+            */
 
             //var matrix = Renderer.GetViewMatrix();
             //var projMatrix = Renderer.GetProjectionMatrix();
-            
-            
+
+
 
         }
 
         public static void Release()
         {
 
-            Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
-            JungleCamp[] jungleCampsArray = jungleCamps.Values.ToArray();
-            LocalPlayer localPlayer = new LocalPlayer();
-            KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
-            overlay = new Presentation.Overlay(jungleCampsArray, kindredTracker);
+            Mediator mediator = new Mediator();
+            overlay = new Presentation.Overlay(mediator);
             Task.Run(async () =>
             {
-                Task.Run(() => campManager(jungleCamps, kindredTracker));
-
                 await Task.Run(() => overlay.Show());
 
             }).GetAwaiter().GetResult();
         }
-        public static void campManager(Dictionary<string, JungleCamp> jungleCamps, KindredTracker kindredTracker)
-        {
-            HashSet<string> camps = new HashSet<string>();
-            EntityReader memoryReader = new EntityReader();
-            while (true)
-            {
-                camps = memoryReader.GetJungleCampsEntityList();
-                foreach (JungleCamp jungleCamp in jungleCamps.Values)
-                {
-                    jungleCamp.HandleEntityListChange(camps);
-                }
-                kindredTracker.UpdateMarkStatus();
-                Thread.Sleep(1000);
-            }
-        }
+        
         public static void MainLoop()
         {
 
             Dictionary<string, JungleCamp> jungleCamps = JungleCamp.InitializeJungleCamps();
             
-            LocalPlayer localPlayer = new LocalPlayer();
+            LocalPlayer localPlayer = LocalPlayer.GetInstance();
 
             KindredTracker kindredTracker = new KindredTracker(new List<JungleCamp>(jungleCamps.Values), localPlayer);
             CommandLineUI commandLineUI = new CommandLineUI(new List<JungleCamp>(jungleCamps.Values).ToArray(), kindredTracker);
