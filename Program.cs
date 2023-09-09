@@ -22,6 +22,7 @@ namespace ExternalRPM
             //Release();
             UnitRadiusService.ParseUnitRadiusData();
             Mediator mediator = new Mediator();
+            var attackSpeed = mediator.LocalPlayer.GetAttackSpeed();
             overlay = new Presentation.Overlay(mediator);
             Task.Run(async () =>
             {

@@ -36,6 +36,8 @@ namespace ExternalRPM.Modules
         public bool IsBlueTeam { get; private set; }
         public Vector3 position { get; private set; }
         public int boundingRadius {  get; private set; }
+        public float BaseAS {  get; private set; }
+        public float RatioAS { get; private set; }
         public bool isAlive { get; private set; }
         public bool isVisible {  get; private set; }
 
@@ -46,6 +48,8 @@ namespace ExternalRPM.Modules
             IsBlueTeam = IsLocalPlayerBlueTeam();
             Name = Memory.ReadString(BaseAddress + Offsets.Object.ObjectName, 20);
             boundingRadius = GetBoundingRadius();
+            BaseAS = float.Parse(UnitRadiusData[Name]["Base AS"].ToString());
+            RatioAS = float.Parse(UnitRadiusData[Name]["Ratio AS"].ToString());
         }
         // Public method to get the singleton instance
         public static LocalPlayer GetInstance()
@@ -93,6 +97,11 @@ namespace ExternalRPM.Modules
         public int GetBoundingRadius()
         {
             return int.Parse(UnitRadiusData[Name]["Gameplay radius"].ToString());
+        }
+        public float GetAttackSpeed()
+        {
+            var bonusAS = Memory.Read<float>(BaseAddress + Offsets.Object.AttackSpeedBonus);
+            return BaseAS + (RatioAS * bonusAS);
         }
         public bool IsAlive()
         {

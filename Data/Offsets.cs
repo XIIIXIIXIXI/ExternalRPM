@@ -54,6 +54,23 @@ namespace ExternalRPM.Data
             public static long PlayerTeam = 0x3C;
             public static long AttackRange = 0x16B4; //
 
+            public static long AttackSpeedBonus = 0x1B88; //
+
+            public static long Targetable = 0xEB0; //
+            public static long Invulnerable = 0x4F0; //
+            public static long Lethality = 0x1598; //
+            public static long BonusAttackDamage = 0x15D8; //
+            public static long BaseAttackDamage = 0x166C; //
+            public static long Scale = 0x1684; //
+            public static long Armor = 0x1694; //
+            public static long BonusArmor = 0x1698; //
+            public static long MagicResist = 0x169C; //
+            public static long BonusMagicResist = 0x16A0; //    
+            public static long CriticalStrikeMod = 0x1C78; //
+            public static long ArmorPenMod = 0x1DE0; //
+
+            public static long BuffManagerInstance = 0x27B0; //
+
             //minionlist
             public static int EntityCount = 0x10; 
             public static int EntityList = 0x8; 

@@ -747,7 +747,9 @@
     "Gameplay radius": "65",
     "Selection radius": 110,
     "Pathing radius": 35,
-    "Acquisition radius": 750
+    "Acquisition radius": 750,
+    "Base AS": 0.651,
+    "Ratio AS":  0.651
   },
   "Twitch": {
     "Gameplay radius": "65",
