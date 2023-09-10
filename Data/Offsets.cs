@@ -39,7 +39,7 @@ namespace ExternalRPM.Data
             public static long GetEntityBase { get; } = Memory.Read<long>(_entityBase);
             public static long GetobjectManager { get; } = Memory.Read<long>(_objectManager);
             public static long GetMinimapObject { get;} = Memory.Read<long>(_minimapObject);
-            public static float GetGameTime { get; } = Memory.Read<float>(_gameTime);
+            public static float GetGameTime() { return Memory.Read<float>(_gameTime); }  
             public static long GetHeroList { get; } = Memory.Read<long>(_heroList);
             public static long GetRenderer { get; } = Memory.Read<long>(_renderer);
             public static long GetViewPort { get; } = Memory.Read<long>(_viewPort);
@@ -171,6 +171,7 @@ namespace ExternalRPM.Data
             public int Level;
             public bool IsVisible;
             public bool IsAlive;
+            public Vector3 ScreenPosition = new Vector3();
 
             public GameObject(long initialMemoryID)
             {

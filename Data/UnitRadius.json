@@ -297,7 +297,11 @@
     "Gameplay radius": "65",
     "Selection radius": 100,
     "Pathing radius": 35,
-    "Acquisition radius": 900
+    "Acquisition radius": 900,
+    "Base AS": 0.694,
+    "Ratio AS": 0.694,
+    "Windup%": 0.36,
+    "WindupMod": 0.75
   },
   "Karma": {
     "Gameplay radius": "65",

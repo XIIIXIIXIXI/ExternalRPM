@@ -38,6 +38,8 @@ namespace ExternalRPM.Modules
         public int boundingRadius {  get; private set; }
         public float BaseAS {  get; private set; }
         public float RatioAS { get; private set; }
+        public float WindupPercent { get; private set; }
+        public float WindupModifier { get; private set; }
         public bool isAlive { get; private set; }
         public bool isVisible {  get; private set; }
 
@@ -50,6 +52,12 @@ namespace ExternalRPM.Modules
             boundingRadius = GetBoundingRadius();
             BaseAS = float.Parse(UnitRadiusData[Name]["Base AS"].ToString());
             RatioAS = float.Parse(UnitRadiusData[Name]["Ratio AS"].ToString());
+            WindupPercent = float.Parse(UnitRadiusData[Name]["Windup%"].ToString());
+            try { WindupModifier = float.Parse(UnitRadiusData[Name]["WindupMod"].ToString()); } catch { /*no Windup for champ*/}
+
+
+
+
         }
         // Public method to get the singleton instance
         public static LocalPlayer GetInstance()
@@ -98,10 +106,13 @@ namespace ExternalRPM.Modules
         {
             return int.Parse(UnitRadiusData[Name]["Gameplay radius"].ToString());
         }
-        public float GetAttackSpeed()
+        public float GetAttackSpeed(float bonusAttackSpeed)
         {
-            var bonusAS = Memory.Read<float>(BaseAddress + Offsets.Object.AttackSpeedBonus);
-            return BaseAS + (RatioAS * bonusAS);
+            return BaseAS + (RatioAS * bonusAttackSpeed);
+        }
+        public float GetBonusAttackSpeed()
+        {
+            return Memory.Read<float>(BaseAddress + Offsets.Object.AttackSpeedBonus);
         }
         public bool IsAlive()
         {

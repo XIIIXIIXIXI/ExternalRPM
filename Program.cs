@@ -8,6 +8,9 @@ using ExternalRPM.Presentation;
 using System.Threading.Tasks;
 using SharpDX;
 using System.Diagnostics;
+using WindowsInput;
+using WindowsInput.Native;
+using System.Runtime.InteropServices;
 
 namespace ExternalRPM
 {
@@ -22,7 +25,37 @@ namespace ExternalRPM
             //Release();
             UnitRadiusService.ParseUnitRadiusData();
             Mediator mediator = new Mediator();
-            var attackSpeed = mediator.LocalPlayer.GetAttackSpeed();
+            CosmicSurfer.Walk();
+            InputSimulator simulator = new InputSimulator();
+
+            var champions = ChampionReader.ReadChampions();
+            List<Offsets.GameObject> enemyChampionsList = new List<Offsets.GameObject>();  
+            foreach (var champion in champions)
+            {
+                if (champion.TeamID != champions[0].TeamID)
+                {
+                    enemyChampionsList.Add(champion);
+                }
+            }
+            Offsets.GameObject[] enemyChampions = enemyChampionsList.ToArray();
+
+            while (true)
+            {
+                for (int i = 0; i < enemyChampions.Length; i++)
+                {
+                    enemyChampions[i].Position = ChampionReader.ReadChampionPosition(enemyChampions[i].memoryID);
+                    Renderer.WorldToScreen(enemyChampions[i].Position, out enemyChampions[i].ScreenPosition);
+                }
+                Debug.WriteLine($"{enemyChampions[0].ScreenPosition}");
+                
+                Thread.Sleep(5000);
+            }
+            
+           
+            CosmicSurfer.Walk();
+            
+              
+            
             overlay = new Presentation.Overlay(mediator);
             Task.Run(async () =>
             {
@@ -55,7 +88,7 @@ namespace ExternalRPM
 
 
         }
-
+       
         public static void Release()
         {
 
